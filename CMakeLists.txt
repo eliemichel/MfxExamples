@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0...3.18.4)
 # Name of the project
 project(MfxExamples)
 
-# Add OpenMeshEffect to define CppPluginSupport, the C++ helper API
+# Add OpenMfx to define CppPluginSupport, the C++ helper API
 add_subdirectory(OpenMfx/CppPluginSupport)
 
 function(target_treat_warnings_as_errors target)
