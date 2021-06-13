@@ -1,0 +1,3 @@
+[submodule "OpenMfx"]
+	path = OpenMfx
+	url = https://github.com/eliemichel/OpenMfx.git
