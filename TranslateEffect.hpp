@@ -1,5 +1,6 @@
 #include <PluginSupport/MfxEffect>
 #include "utils.hpp"
+#include <iostream>
 
 /**
  * Translate the input geometry
@@ -9,7 +10,24 @@ class TranslateEffect : public MfxEffect {
 	OfxStatus Describe(OfxMeshEffectHandle) override {
 		AddInput(kOfxMeshMainInput);
 		AddInput(kOfxMeshMainOutput);
-		
+
+		/*
+		OfxParamSetHandle paramSet = nullptr;
+		std::cout << "|| paramSet = " << paramSet << std::endl;
+		std::cout << "|| &paramSet = " << &paramSet << std::endl;
+		meshEffectSuite->getParamSet(descriptor, &paramSet);
+		std::cout << "|| paramSet = " << paramSet << std::endl;
+
+		OfxPropertySetHandle paramProps = nullptr;
+		std::cout << "|| paramProps = " << paramProps << std::endl;
+		std::cout << "|| &paramProps = " << &paramProps << std::endl;
+		parameterSuite->paramDefine(paramSet, kOfxParamTypeInteger, "TEST", &paramProps);
+		std::cout << "|| paramProps = " << paramProps << std::endl;
+
+		propertySuite->propSetString(paramProps, kOfxPropLabel, 0, "TEST");
+		std::cout << "|| paramProps = " << paramProps << std::endl;
+		*/
+
 		// Add a vector3 parameter
 		AddParam("translation", double3{0.0, 0.0, 0.0})
 		.Label("Translation") // Name used for display
@@ -19,6 +37,19 @@ class TranslateEffect : public MfxEffect {
 	}
 	
 	OfxStatus Cook(OfxMeshEffectHandle) override {
+		/*
+		OfxMeshInputHandle input = nullptr;
+		std::cout << "|| input = " << input << std::endl;
+		std::cout << "|| &input = " << &input << std::endl;
+		meshEffectSuite->inputGetHandle(instance, kOfxMeshMainInput, &input, nullptr);
+		std::cout << "|| input = " << input << std::endl;
+		OfxMeshHandle mesh = nullptr;
+		std::cout << "|| mesh = " << mesh << std::endl;
+		std::cout << "|| &mesh = " << &mesh << std::endl;
+		meshEffectSuite->inputGetMesh(input, 0.0, &mesh, nullptr);
+		std::cout << "|| mesh = " << mesh << std::endl;
+		*/
+
 		MfxMesh input_mesh = GetInput(kOfxMeshMainInput).GetMesh();
 		MfxAttributeProps input_positions;
 		input_mesh.GetPointAttribute(kOfxMeshAttribPointPosition)
@@ -41,9 +72,10 @@ class TranslateEffect : public MfxEffect {
 		output_mesh.GetCornerAttribute(kOfxMeshAttribCornerPoint)
 			.ForwardFrom(input_mesh.GetCornerAttribute(kOfxMeshAttribCornerPoint));
 		
-		output_mesh.GetFaceAttribute(kOfxMeshAttribFaceSize)
-			.ForwardFrom(input_mesh.GetFaceAttribute(kOfxMeshAttribFaceSize));
-
+		if (output_constant_face_count < 0) {
+			output_mesh.GetFaceAttribute(kOfxMeshAttribFaceSize)
+				.ForwardFrom(input_mesh.GetFaceAttribute(kOfxMeshAttribFaceSize));
+		}
 		
 		output_mesh.Allocate(
 			output_point_count,

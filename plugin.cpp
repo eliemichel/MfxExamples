@@ -4,6 +4,7 @@
 #include "CopyEffect.hpp"
 #include "BoxGeneratorEffect.hpp"
 #include "ExplodeEffect.hpp"
+#include "PointAttributeMath.hpp"
 
 #include <PluginSupport/MfxRegister>
 
@@ -13,6 +14,7 @@ MfxRegister(
     BoxUvEffect,
     CopyEffect,
     BoxGeneratorEffect,
-    ExplodeEffect
+    ExplodeEffect,
+    PointAttributeMath
 );
 

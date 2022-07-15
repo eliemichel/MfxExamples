@@ -70,7 +70,9 @@ protected:
 		MfxAttributeProps input_positions, input_corner_points, input_face_size;
 		input_mesh.GetPointAttribute(kOfxMeshAttribPointPosition).FetchProperties(input_positions);
 		input_mesh.GetCornerAttribute(kOfxMeshAttribCornerPoint).FetchProperties(input_corner_points);
-		input_mesh.GetFaceAttribute(kOfxMeshAttribFaceSize).FetchProperties(input_face_size);
+		if (input_props.constantFaceSize == -1) {
+			input_mesh.GetFaceAttribute(kOfxMeshAttribFaceSize).FetchProperties(input_face_size);
+		}
 		
 		MfxAttributeProps output_positions, output_corner_points, output_face_counts;
 		output_mesh.GetPointAttribute(kOfxMeshAttribPointPosition).FetchProperties(output_positions);
@@ -176,9 +178,13 @@ protected:
 			for (int k = 0; k < iterations + 1; ++k) {
 				int ofaceIndexOffset = k * input_props.faceCount;
 				for (int i = 0; i < input_props.faceCount; ++i) {
-					int* icount = attributeAt<int>(input_face_size, i);
+					int icount = (
+						input_props.constantFaceSize >= 0
+						? input_props.constantFaceSize
+						: *attributeAt<int>(input_face_size, i)
+					);
 					int* ocount = attributeAt<int>(output_face_counts, ofaceIndexOffset + i);
-					ocount[0] = icount[0];
+					ocount[0] = icount;
 				}
 			}
 		}

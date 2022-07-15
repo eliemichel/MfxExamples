@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0...3.18.4)
 project(MfxExamples)
 
 # Add OpenMfx to define CppPluginSupport, the C++ helper API
-add_subdirectory(OpenMfx/CppPluginSupport)
+add_subdirectory(OpenMfx)
 
 function(target_treat_warnings_as_errors target)
 	if(MSVC)
