@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.14...3.24)
 project(MfxExamples)
 
-include(cmake/FetchOpenMfx.txt) # get OpenMfx targets
-include(cmake/utils.txt) # for target_treat_warnings_as_errors
+include(cmake/FetchOpenMfx.cmake) # get OpenMfx targets
+include(cmake/utils.cmake) # for target_treat_warnings_as_errors
 
 # Define the plugin target, called for instance mfx_examples
 # You may list additional source files after "plugin.cpp"
