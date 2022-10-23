@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.14...3.24)
 project(MfxExamples)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 include(cmake/FetchOpenMfx.cmake) # get OpenMfx targets
 include(cmake/utils.cmake) # for target_treat_warnings_as_errors
 
