@@ -1,4 +1,4 @@
-#include <PluginSupport/MfxEffect>
+#include <OpenMfx/Sdk/Cpp/Plugin/MfxEffect>
 
 /**
  * For now, this is only doing an addition of two 1-dimensional float attribtues

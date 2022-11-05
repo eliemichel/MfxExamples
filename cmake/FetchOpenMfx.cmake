@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
   OpenMfx
   GIT_REPOSITORY https://github.com/eliemichel/OpenMfx.git
-  GIT_TAG dev # adapt here to the version you want to use
+  GIT_TAG master # adapt here to the version you want to use
 )
 
 FetchContent_MakeAvailable(OpenMfx)

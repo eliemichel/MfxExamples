@@ -1,10 +1,5 @@
 #pragma once
-#include <PluginSupport/MfxEffect>
-
-template <typename T>
-T* attributeAt(MfxAttributeProps& attr, int index) {
-	return reinterpret_cast<T*>(attr.data + index * attr.stride);
-}
+#include <OpenMfx/Sdk/Cpp/Plugin/MfxEffect>
 
 std::array<float,3> to_float3(double3 valued) {
 	std::array<float,3> value;

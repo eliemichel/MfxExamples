@@ -1,4 +1,4 @@
-#include <PluginSupport/MfxEffect>
+#include <OpenMfx/Sdk/Cpp/Plugin/MfxEffect>
 
 /**
  * The Array effect repeats its input geometry several times,

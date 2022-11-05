@@ -1,4 +1,4 @@
-#include <PluginSupport/MfxEffect>
+#include <OpenMfx/Sdk/Cpp/Plugin/MfxEffect>
 #include "utils.hpp"
 
 /**
@@ -81,8 +81,8 @@ protected:
 
 		// First copy the original points
 		for (int i = 0; i < input_props.pointCount; ++i) {
-			float* ipos = attributeAt<float>(input_positions, i);
-			float* opos = attributeAt<float>(output_positions, i);
+			float* ipos = input_positions.at<float>(i);
+			float* opos = output_positions.at<float>(i);
 			opos[0] = ipos[0];
 			opos[1] = ipos[1];
 			opos[2] = ipos[2];
@@ -99,7 +99,7 @@ protected:
 				int cornerCount = (
 					input_props.constantFaceSize >= 0
 					? input_props.constantFaceSize
-					: *attributeAt<int>(input_face_size, f)
+					: *input_face_size.at<int>(f)
 				);
 
 				// Compute barycenter and normal vector
@@ -108,8 +108,8 @@ protected:
 				double3 p0{};
 				double3 p1{};
 				for (int j = 0; j < cornerCount; ++j) {
-					int* ipointIndex = attributeAt<int>(input_corner_points, i + j);
-					float* ipos = attributeAt<float>(input_positions, *ipointIndex);
+					int* ipointIndex = input_corner_points.at<int>(i + j);
+					float* ipos = input_positions.at<float>(*ipointIndex);
 
 					barycenter[0] += ipos[0];
 					barycenter[1] += ipos[1];
@@ -139,16 +139,16 @@ protected:
 
 				// iterate over the same corners, this time to create output points
 				for (int j = 0; j < cornerCount; ++j, ++i) {
-					int* ipointIndex = attributeAt<int>(input_corner_points, i);
-					float* ipos = attributeAt<float>(input_positions, *ipointIndex);
+					int* ipointIndex = input_corner_points.at<int>(i);
+					float* ipos = input_positions.at<float>(*ipointIndex);
 
 					double3 normal = faceNormal;
 					if (use_corner_normals) {
-						float* cornerNormal = attributeAt<float>(input_normal, i);
+						float* cornerNormal = input_normal.at<float>(i);
 						normal = double3{ cornerNormal[0], cornerNormal[1], cornerNormal[2] };
 					}
 
-					float* opos = attributeAt<float>(output_positions, opointIndexOffset + i);
+					float* opos = output_positions.at<float>(opointIndexOffset + i);
 					for (int c = 0; c < 3; ++c) {
 						opos[c] = static_cast<float>(
 							(ipos[c] - barycenter[c]) * totalInset
@@ -161,15 +161,15 @@ protected:
 		}
 
 		for (int i = 0; i < input_props.cornerCount; ++i) {
-			int* ipointIndex = attributeAt<int>(input_corner_points, i);
-			int* opointIndex = attributeAt<int>(output_corner_points, i);
+			int* ipointIndex = input_corner_points.at<int>(i);
+			int* opointIndex = output_corner_points.at<int>(i);
 			opointIndex[0] = ipointIndex[0];
 		}
 		for (int k = 0; k < iterations; ++k) {
 			int pointIndexOffset = input_props.pointCount + input_props.cornerCount * k;
 			int ocornerIndexOffset = (k + 1) * input_props.cornerCount;
 			for (int i = 0; i < input_props.cornerCount; ++i) {
-				int* opointIndex = attributeAt<int>(output_corner_points, ocornerIndexOffset + i);
+				int* opointIndex = output_corner_points.at<int>(ocornerIndexOffset + i);
 				opointIndex[0] = pointIndexOffset + i;
 			}
 		}
@@ -181,9 +181,9 @@ protected:
 					int icount = (
 						input_props.constantFaceSize >= 0
 						? input_props.constantFaceSize
-						: *attributeAt<int>(input_face_size, i)
+						: *input_face_size.at<int>(i)
 					);
-					int* ocount = attributeAt<int>(output_face_counts, ofaceIndexOffset + i);
+					int* ocount = output_face_counts.at<int>(ofaceIndexOffset + i);
 					ocount[0] = icount;
 				}
 			}

@@ -1,4 +1,4 @@
-#include <PluginSupport/MfxEffect>
+#include <OpenMfx/Sdk/Cpp/Plugin/MfxEffect>
 #include "utils.hpp"
 
 static const float output_point_data[] = {
@@ -69,7 +69,7 @@ protected:
 			.FetchProperties(output_positions);
 
 		for (int i = 0; i < output_point_count; ++i) {
-			float *p = attributeAt<float>(output_positions, i);
+			float *p = output_positions.at<float>(i);
 			for (int k = 0; k < 3; ++k) {
 				p[k] = position[k] + size[k] * 0.5f * output_point_data[3 * i + k];
 			}
@@ -80,7 +80,7 @@ protected:
 			.FetchProperties(output_corners);
 
 		for (int i = 0; i < output_corner_count; ++i) {
-			*attributeAt<int>(output_corners, i) = output_vertex_data[i];
+			*output_corners.at<int>(i) = output_vertex_data[i];
 		}
 
 		MfxAttributeProps output_faces;
@@ -88,7 +88,7 @@ protected:
 			.FetchProperties(output_faces);
 
 		for (int i = 0; i < output_face_count; ++i) {
-			*attributeAt<int>(output_faces, i) = 4;
+			*output_faces.at<int>(i) = 4;
 		}
 
 		output_mesh.Release();
