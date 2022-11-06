@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14...3.24)
-project(MfxExamples)
+project(MfxExamples VERSION 1.0.2 LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
