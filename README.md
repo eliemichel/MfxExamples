@@ -1,3 +1,5 @@
+![CMake Badge](https://github.com/eliemichel/MfxExamples/actions/workflows/cmake.yml/badge.svg)
+
 MfxExamples
 ===========
 

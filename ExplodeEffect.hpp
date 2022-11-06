@@ -1,6 +1,8 @@
 #include <OpenMfx/Sdk/Cpp/Plugin/MfxEffect>
 #include "utils.hpp"
 
+#include <cmath>
+
 /**
  * Copy each face (potentially several times) and translate it along its normal
  */

@@ -16,5 +16,5 @@ MfxRegister(
     BoxGeneratorEffect,
     ExplodeEffect,
     PointAttributeMath
-);
+)
 

@@ -26,3 +26,6 @@ target_link_libraries(mfx_examples PRIVATE OpenMfx::Sdk::Cpp::Plugin)
 set_target_properties(mfx_examples PROPERTIES SUFFIX ".ofx")
 
 target_treat_warnings_as_errors(mfx_examples)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	target_compile_options(mfx_examples PRIVATE "-Wno-unknown-pragmas")
+endif()
